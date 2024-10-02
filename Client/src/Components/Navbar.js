@@ -63,6 +63,7 @@ const Navbar = () => {
             <MDBNavbarNav className="navbar-links">
               <MDBNavbarLink onClick={() => handleNavigation('/')}>Home</MDBNavbarLink>
               <MDBNavbarLink onClick={() => handleNavigation('/products')}>Products</MDBNavbarLink>
+              {loginStatus && <MDBNavbarLink onClick={() => handleNavigation('/bookAppointment')}>Book Appointment</MDBNavbarLink>}
               {/* <MDBNavbarLink onClick={() => handleNavigation('/cat-food')} className="nav-food">
                 Cat Food
               </MDBNavbarLink>
@@ -145,6 +146,8 @@ const Navbar = () => {
                           <li onClick={() => navigate('/wishlist')}>Wishlist</li>
                           <hr />
                           <li onClick={() => navigate('/appointments')}>Appointments</li>
+                          <hr />
+                          <li onClick={() => navigate('/mySubscriptions')}>Subscriptions</li>
                           <hr />
                           <li
                             onClick={() => {

@@ -3,8 +3,6 @@ import { PetContext } from '../Context/Context';
 import ProductList from '../Components/ProductList';
 import Header from '../Components/Header';
 import Categories from '../Components/Categories';
-import Services from '../Components/Services';
-import Brands from '../Components/Brands';
 import '../Styles/Products.css';
 
 const Home = () => {
@@ -22,8 +20,8 @@ const Home = () => {
         <ProductList products={products.slice(0, 8)} />
       </section>
 
-      <Services />
-      <Brands />
+      
+     
     </div>
   );
 };

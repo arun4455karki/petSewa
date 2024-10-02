@@ -41,7 +41,7 @@ function Orders() {
                           src={product.image}
                           alt={product.title}
                           style={{ width: '100px' }}
-                          onClick={() => navigate(`${process.env.REACT_APP_BACKEND_BASE_URL}/users/products/${product._id}`)}
+                          onClick={() => navigate(`${process.env.REACT_APP_BACKEND_BASE_URL}/api/users/products/${product._id}`)}
                         />
                       </th>
                       <th className="w-25">{product.title}</th>

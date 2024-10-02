@@ -1,0 +1,14 @@
+.subscription-image{
+    width: 80px;
+}
+.active{
+    color: green;
+}
+
+.paused{
+    color: grey
+}
+
+.cancelled{
+    color: #FF0000
+}

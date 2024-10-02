@@ -38,7 +38,7 @@ const BookAppointment = () => {
             appointmentDateAndTime: combinedDateTime
         }
         console.log(appointmentData)
-        const response = await axios.post(`${process.env.REACT_APP_BACKEND_BASE_URL}/users/addAppointment`, { appointment: appointmentData });
+        const response = await axios.post(`${process.env.REACT_APP_BACKEND_BASE_URL}/api/users/addAppointment`, { appointment: appointmentData });
         setMessage(response.data.message);
         setTimeout( () => {
             navigate('/appointments')

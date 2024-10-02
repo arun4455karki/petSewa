@@ -9,7 +9,6 @@ import Navbar from './Components/Navbar';
 import Login from './Pages/Login';
 import Cart from './Pages/Cart';
 import Orders from './Pages/Orders';
-import DogFood from './Pages/DogFood';
 import Food from './Pages/Food';
 import Toy from './Pages/Toy';
 import Details from './Pages/Details';
@@ -18,9 +17,10 @@ import Footer from './Components/Footer';
 import FixedAdmin from './Admin/FixedAdmin';
 import SuccessPayment from './Pages/SuccessPayment';
 import Appointments from './Pages/Appointments';
-import BookAppointment from './Pages/BookAppointment'
 import Accessories from './Pages/Accessories';
-import Subscription from './Pages/Subscription';
+import Subscriptions from './Pages/Subscriptions';
+import BookAppointment from './Pages/BookAppointment'
+import SubscriptionProducts from './Pages/SubscriptionProducts';
 function App() {
   // Check if the current route is within the admin dashboard
   const location = useLocation();
@@ -39,11 +39,10 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path = '/appointments' element = {<Appointments />} />
           <Route path = '/bookAppointment' element = {<BookAppointment />} />
-          <Route path="/dog-food" element={<DogFood />} />
-          {/* <Route path="/cat-food" element={<CatFood />} /> */}
+          <Route path = '/mySubscriptions' element={<Subscriptions />} />
           <Route path="/food" element={<Food />} />
           <Route path="/accessories" element={<Accessories />} />
-          <Route path="/subscription" element={<Subscription />} />
+          <Route path="/subscriptionProducts" element={<SubscriptionProducts />} />
           <Route path="/toys" element={<Toy/>} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/products" element={<AllProducts />} />

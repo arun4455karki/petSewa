@@ -3,6 +3,7 @@ require('dotenv').config();
 const { Product } = require('../Models/productSchema');
 const Order = require('../Models/orderSchema');
 const {Appointment} = require('../Models/appointmentSchema')
+const {Subscription} = require('../Models/subscriptionSchema')
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
@@ -457,6 +458,8 @@ payment: async (req, res) => {
     });
   },
 
+
+  // appointments controller
   addAppointment: async (req, res) => {
     const {appointment} = req.body
     console.log(appointment)
@@ -523,6 +526,79 @@ payment: async (req, res) => {
       data: appointments,
     });
   },
+
+  // subscription controller
+
+
+// Create a new subscription
+// router.post('/subscriptions', async (req, res) => {
+  addSubscription: async(req, res) => {
+    const intervals= {
+      'weekly': 7,
+      'biweekly': 14,
+      'monthly': 30
+    }
+    const subscription = req.body.subscription;
+    const daysToAdd = intervals[subscription.interval]
+    const nextDate = new Date(subscription.startDate) 
+    nextDate.setDate(nextDate.getDate() + daysToAdd)
+    const newsubscriptionObject = {
+      ...subscription,
+      nextOrderDate: nextDate 
+    }
+
+    const savedSubscription = await Subscription.create(newsubscriptionObject);
+    res.status(200).json({
+      status: 'success',
+      message: 'Subscription added successfully',
+      data: savedSubscription,
+    });
+  },
+
+// Get all subscriptions for a user
+// router.get('/subscriptions/:userId', async (req, res) => {
+  getSubscriptionByUserId: async (req, res) => {
+      const subscriptions = await Subscription.find({ user: req.params.userId }).populate('product');
+      res.status(200).json({
+        status: 'success',
+        message: 'Appointments retrieved successfully',
+        data: subscriptions,
+      });
+  },
+
+// Get a specific subscription
+// router.get('/subscriptions/:subscriptionId', async (req, res) => {
+  getSubscriptionById: async( req, res) => {   
+
+    const subscription = await Subscription.findById(req.params.subscriptionId);
+    if (!subscription) {
+      return res.status(404).json({ error: 'Subscription not found' });
+    }
+    res.json(subscription);
+    
+  },
+
+// Update a subscription
+
+// router.put('/subscriptions/:subscriptionId', async (req, res) => {
+  updateSubscription: async (req, res) => {
+    const subscription = await Subscription.findByIdAndUpdate(req.params.subscriptionId, req.body, { new: true });
+    if (!subscription) {
+      return res.status(404).json({ error: 'Subscription not found' });
+    }
+    res.json(subscription);
+    res.status(400).json({ error: err.message });
+  },
+
+// Delete a subscription
+// router.delete('/subscriptions/:subscriptionId', async (req, res) => {
+  deleteSubscription: async(req, res) =>{
+    const subscription = await Subscription.findByIdAndDelete(req.params.subscriptionId);
+    if (!subscription) {
+      return res.status(404).json({ error: 'Subscription not found' });
+    }
+
+  }
 
 
 };

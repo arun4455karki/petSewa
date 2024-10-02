@@ -9,9 +9,9 @@ const Header = () => {
   return (
     <header className="header">
       <div className="header-info">
-        <h2>HIGH QUALITY</h2>
-        <h1>PET FOOD</h1>
-        <p>Sale up to 40% off today</p>
+        <h2>Happy Pets,</h2>
+        <h1>Happy You!</h1>
+        <p>Sale up to 30% off today</p>
         <Button color="black" className="header-button" onClick={() => navigate('/products')}>
           Shop Now
         </Button>

@@ -30,8 +30,13 @@ router
 
   .get('/:id/orders', tryCatch(controller.showOrders))
 
-  // add appointments
+  // add appointments 
   .post('/addAppointment', tryCatch(controller.addAppointment))
   .get('/getAppointments', tryCatch(controller.getAppointments))
-  .get('/getAppointmentsByUserId/:userId', tryCatch(controller.getAppointmentsByUserId));
+  .get('/getAppointmentsByUserId/:userId', tryCatch(controller.getAppointmentsByUserId))
+
+  // subscription routes
+  .post('/addSubscription', tryCatch(controller.addSubscription))
+  .get('/getSubscriptionsByUserId/:userId', tryCatch(controller.getSubscriptionByUserId))
+
 module.exports = router;

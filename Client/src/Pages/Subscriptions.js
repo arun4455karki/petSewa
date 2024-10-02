@@ -2,50 +2,50 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { axios } from '../Utils/Axios';
 import toast from 'react-hot-toast';
-import '../Styles/Appointments.css'
-function Appointments() {
+import '../Styles/Subscriptions.css'
+function Subscriptions() {
   // const { userID } = useContext(PetContext);
   const userId = localStorage.getItem('userID')
-  const [appointments, setAppointments] = useState([]);
+  const [subscriptions, setSubscriptions] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchAppointments = async () => {
+    const fetchSubscriptions = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/api/users/getAppointmentsByUserId/${userId}`);
-        setAppointments(response.data.data);
+        console.log()
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/api/users/getSubscriptionsByUserId/${userId}`);
+        console.log(response.data.data)
+        setSubscriptions(response.data.data);
       } catch (error) {
         toast.error(error.response.data.message);
       }
     };
 
-    fetchAppointments();
+    fetchSubscriptions();
   }, [userId]);
 
   return (
     <section className="appointments d-flex flex-column align-items-center mb-5 text-black" style={{ paddingTop: '80px' }}>
       <h1 className="mt-5 mb-5 text-black fw-bolder">
-        <span>My</span> Appointments
+        <span>My</span> Subscriptions
       </h1>
 
       <div className="dashboard-table pt-5 px-5 w-75">
         <table className="w-100 pt-5">
           <tbody className="text-center">
-            {appointments.length > 0 ? (
+            {subscriptions?.length > 0 ? (
               <>
               <tr>
                 <th>
-                  <span>Pet Name</span> 
+                    <span>Product Image</span>
                 </th>
                 <th>
-                  <span>Service</span> 
+                  <span>Product Name</span> 
                 </th>
                 <th>
-                  <span>Date</span>
+                  <span>Next Due Date</span>
                 </th>
-                <th>
-                  <span>Time</span>
-                </th>
+
                 <th>
                   <span>Status</span>
                 </th>
@@ -53,28 +53,25 @@ function Appointments() {
                   <span>Action</span>
                 </th>
               </tr>
-              {appointments.map((appointment) => (
-                <tr key={appointment._id}>
+              {subscriptions.map((subscription) => (
+                <tr key={subscription._id}>
                   <td >
-                    {appointment.petName}
+                    <img src={subscription.product.image} className = 'subscription-image'/>
                   </td>
                   <td >
-                    {appointment.serviceType}
+                    {subscription.product.title}
                   </td>
-                  <td>
-                    {new Date(appointment.appointmentDateAndTime).toLocaleDateString()}
+                  <td className='cancelled' style = {{letterSpacing: '0.2rem'}}>
+                    {new Date(subscription.nextOrderDate).toLocaleDateString()}
                   </td>
-                  <td>
-                    {new Date(appointment.appointmentDateAndTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </td>
-                  <td className = {`${appointment.status}`}>
-                    {appointment.status}
+                  <td className = {`${subscription.status}`}>
+                    {subscription.status}
                   </td>
                   <td>
                     {
-                      appointment.status == 'Scheduled' ? <button
+                      subscription.status == 'active' ? <button
                       className="btn btn-danger"
-                      onClick={() => navigate(`/appointments/${appointment._id}`)}
+                      onClick={() => navigate(`/subscriptions`)}
                     >
                       Cancel
                     </button> :<></>
@@ -97,4 +94,4 @@ function Appointments() {
   );
 }
 
-export default Appointments;
+export default Subscriptions;
