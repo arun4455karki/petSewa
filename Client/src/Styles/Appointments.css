@@ -1,0 +1,11 @@
+.Scheduled{
+    color: blue;
+}
+
+.Completed{
+    color: #00FF00
+}
+
+.Cancelled{
+    color: #FF0000
+}
