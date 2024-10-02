@@ -346,7 +346,7 @@ payment: async (req, res) => {
 
       return {
         price_data: {
-          currency: 'inr',
+          currency: 'usd',
           product_data: {
             images: [imageUrl],
             name: item.product.title,

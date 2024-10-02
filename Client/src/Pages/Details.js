@@ -55,7 +55,7 @@ export default function Details() {
         </div>
         <div className="d-flex flex-column w-100 w-md-50 text-black me-5 ms-5">
           <h1 className="fw-bold mb-3">{item.title}</h1>
-          <h4 className="fw-bold mb-3">AUD {item.price}</h4>
+          <h4 className="fw-bold mb-3">${item.price}</h4>
           <hr />
           <p className="mt-3 text-muted mb-4">{item.description}</p>
           {/* <h1>{item.interval}</h1> */}

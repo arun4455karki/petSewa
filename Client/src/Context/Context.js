@@ -157,7 +157,7 @@ const PetProvider = ({ children }) => {
     }
   };
 
-  const handlePrice = (price) => `₹${Number(price).toLocaleString('en-IN')}`;
+  const handlePrice = (price) => `$${Number(price).toLocaleString('en-IN')}`;
 
   const totalPrice = cart?.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
 
