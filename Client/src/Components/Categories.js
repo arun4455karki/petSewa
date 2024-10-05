@@ -19,7 +19,7 @@ const Categories = () => {
   return (
     <section className="categories d-flex flex-column align-items-center mb-5">
       <h1 className="mb-5 text-black fw-bolder">
-        categories
+        Categories
       </h1>
       <div className="row d-flex justify-content-center align-items-center gap-3 g-0 flex-wrap">
 

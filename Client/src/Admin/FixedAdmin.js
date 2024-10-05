@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { MDBIcon } from 'mdb-react-ui-kit';
 import { PetContext } from '../Context/Context';
 import HomeAdmin from './HomeAdmin';
@@ -27,7 +27,14 @@ export default function Dashboard() {
   const { loginStatus, setLoginStatus } = useContext(PetContext);
   const name = localStorage.getItem('name');
   const role = localStorage.getItem('role');
+  useEffect( ()=>{
+    if(!role || role != 'admin'){
+      navigate('/admin/login')
 
+    }else{
+      setLoginStatus(true)
+    }
+  }, [])
   return (
     <div className="admin-dashboard">
       {role === 'admin' ? (
@@ -72,7 +79,7 @@ export default function Dashboard() {
                   onClick={() => {
                     setLoginStatus(false);
                     localStorage.clear();
-                    navigate('/login');
+                    navigate('/admin/login');
                   }}
                 >
                   <MDBIcon fas icon="sign-out-alt" color="dark" />

@@ -38,5 +38,6 @@ router
   // subscription routes
   .post('/addSubscription', tryCatch(controller.addSubscription))
   .get('/getSubscriptionsByUserId/:userId', tryCatch(controller.getSubscriptionByUserId))
-
+  // messages routes
+  .get('/:id/messageList', tryCatch(controller.getMessageList)) 
 module.exports = router;

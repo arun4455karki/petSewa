@@ -21,6 +21,7 @@ import Accessories from './Pages/Accessories';
 import Subscriptions from './Pages/Subscriptions';
 import BookAppointment from './Pages/BookAppointment'
 import SubscriptionProducts from './Pages/SubscriptionProducts';
+import ChatWithUs from './Components/ChatWithUs';
 function App() {
   // Check if the current route is within the admin dashboard
   const location = useLocation();
@@ -32,14 +33,15 @@ function App() {
         {/* Navbar & Footer is common for every route except Dashboard */}
         {!isDashboardRoute && <Navbar />}
         {/* <Toaster /> */}
+        <ChatWithUs />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/registration" element={<Registration />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path = '/appointments' element = {<Appointments />} />
-          <Route path = '/bookAppointment' element = {<BookAppointment />} />
-          <Route path = '/mySubscriptions' element={<Subscriptions />} />
+          <Route path ='/appointments' element = {<Appointments />} />
+          <Route path ='/bookAppointment' element = {<BookAppointment />} />
+          <Route path ='/mySubscriptions' element={<Subscriptions />} />
           <Route path="/food" element={<Food />} />
           <Route path="/accessories" element={<Accessories />} />
           <Route path="/subscriptionProducts" element={<SubscriptionProducts />} />
@@ -51,6 +53,7 @@ function App() {
           <Route path="/food/:id" element={<Details />} />
           <Route path="/payment/success" element={<SuccessPayment />} />
           <Route path="/orders" element={<Orders />} />
+          <Route path='/admin/login' element = {<Login />} />
           <Route path="/dashboard" element={<FixedAdmin />} />
           <Route path="/dashboard/users" element={<FixedAdmin />} />
           <Route path="/dashboard/users/:id" element={<FixedAdmin />} />

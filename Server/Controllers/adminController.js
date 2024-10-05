@@ -1,25 +1,28 @@
 const { User } = require('../Models/userSchema');
 const { Product, productValidationSchema } = require('../Models/productSchema');
 const Order = require('../Models/orderSchema');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { Admin } = require('../Models/adminSchema');
 
 module.exports = {
   login: async (req, res) => {
     const { email, password } = req.body;
+    const admin = await Admin.findOne({email})
+    if(!admin) return res.status(401).json({message: 'Email not found. Please enter the correct email'})
+    
+    const passwordMatch = await bcrypt.compare(password, admin.password)
+    if(!passwordMatch)  return res.status(401).json({message: 'Incorrect Password. Try Again'})
 
-    if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
-      const accessToken = jwt.sign({ email }, process.env.ADMIN_ACCESS_TOKEN_SECRET, { expiresIn: '10m' });
-      const refreshToken = jwt.sign({ email }, process.env.USER_REFRESH_TOKEN_SECRET, { expiresIn: '1d' });
-      res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000 });
+    const accessToken = jwt.sign({ email }, process.env.ADMIN_ACCESS_TOKEN_SECRET, { expiresIn: '10m' });
+    const refreshToken = jwt.sign({ email }, process.env.USER_REFRESH_TOKEN_SECRET, { expiresIn: '1d' });
+    res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000 });
 
-      res.status(200).json({
-        status: 'success',
-        message: 'Successfully Logged In.',
-        data: { jwt_token: accessToken, name: process.env.ADMIN_NAME },
-      });
-    } else {
-      res.status(401).json({ message: 'Access denied. Incorrect password.' });
-    }
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully Logged In.',
+      data: { jwt_token: accessToken, name: admin.name, _id: admin._id },
+    });
   },
 
   getAllUsers: async (req, res) => {
@@ -189,4 +192,17 @@ module.exports = {
       data: stats,
     });
   },
+
+  // retrieve chat list
+
+  getChatList: async ( req, res) => {
+    const admin = await Admin.findOne({}).populate('chatList.user', 'name')
+    // console.log(admin)
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully fetched stats.',
+      data: admin.chatList,
+    });
+  },
+
 };

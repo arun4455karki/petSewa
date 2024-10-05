@@ -61,7 +61,7 @@ const BookAppointment = () => {
     loginStatus ? <>
     <div className="appointment-form-container">
         {loginStatus ? (<>
-            <h2 className="form-title">Book an Appointment</h2>
+            <h2 className="form-title" style={{fontWeight: 'bold', letterSpacing: '1px'}}>Book an Appointment</h2>
             <form onSubmit={handleSubmit} className="appointment-form">
 
 

@@ -8,11 +8,11 @@ const userSchema = new mongoose.Schema({
   password: String,
   messageList: [
     {
+      _id: mongoose.Schema.Types.ObjectId,
+      text: String,
       position: String,
-      type: { type: String, default: 'text'},
       isRead: Boolean,
       date: mongoose.Schema.Types.Date
-
     }
   ],
   cart: [
@@ -40,11 +40,3 @@ const userLoginSchema = Joi.object({
 
 module.exports = { User, userRegisterSchema, userLoginSchema };
 
-// const bcrypt = require("bcrypt");
-// userSchema.pre('save', async function (next) {
-//     const user = this;
-//     if (user.isModified('password')) {
-//         user.password = await bcrypt.hash(user.password, 10);
-//     }
-//     next();
-// })

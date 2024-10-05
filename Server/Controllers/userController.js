@@ -62,7 +62,7 @@ module.exports = {
       .json({
         status: 'success',
         message: 'Successfully Logged In.',
-        data: { jwt_token: accessToken, name: user.name, userID: user._id },
+        data: { jwt_token: accessToken, name: user.name, _id: user._id },
       });
   },
 
@@ -104,11 +104,9 @@ module.exports = {
   getProductsByCategory: async (req, res) => {
     try {
       const { pettype, categoryname } = req.params;  // Extract pettype and category from URL params
-      console.log(`Fetching products for PetType: ${pettype} and Category: ${categoryname}`);
   
       // Fetch products that match the pettype and category
       const products = await Product.find({ petType: pettype, category: categoryname });
-      console.log(products)
       // Check if products exist for the given pettype and category
       if (!products.length) {
         return res.status(404).json({
@@ -257,67 +255,6 @@ module.exports = {
     });
   },
 
-  // payment: async (req, res) => {
-  //   console.log("hhh", process.env.STRIPE_SECRET_KEY)
-  //   const userID = req.params.id;
-  //   console.log(userID)
-  //   const user = await User.findById(userID).populate('cart.product');
-  //   console.log(user)
-  //   if (!user) {
-  //     return res.status(404).json({ message: 'User not found' });
-  //   }
-    
-  //   if (user.cart.length === 0) {
-  //     return res.status(404).json({ message: 'Cart is empty' });
-  //   }
-
-
-  //   const line_items = user.cart.map((item) => {
-  //     return {
-  //       price_data: {
-  //         currency: 'inr',
-  //         product_data: {
-  //           images: [item.product.image],
-  //           name: item.product.title,
-  //         },
-  //         unit_amount: Math.round(item.product.price * 100),
-  //       },
-  //       quantity: item.quantity,
-  //     };
-  //   });
-
-  //   console.log(line_items, "line items")
-
-  //   const session = await stripe.checkout.sessions.create({
-  //     line_items,
-  //     mode: 'payment',
-  //     success_url: 'http://localhost:3000/payment/success',
-  //     cancel_url: 'http://localhost:3000/payment/cancel',
-  //   });
-  //   console.log(session, "session")
-
-  //   orderDetails = {
-  //     userID,
-  //     user,
-  //     newOrder: {
-  //       products: user.cart.map((item) => new mongoose.Types.ObjectId(item.product._id)),
-  //       order_id: Date.now(),
-  //       payment_id: session.id,
-  //       total_amount: session.amount_total / 100,
-  //     },
-  //   };
-
-  //   console.log(orderDetails, "details")
-
-  //   res.status(200).json({
-  //     status: 'success',
-  //     message: 'Stripe Checkout session created',
-  //     sessionId: session.id,
-  //     url: session.url,
-  //   });
-  // },
- 
-// Assuming you're using Express.js
 payment: async (req, res) => {
   try {
     console.log("Stripe Secret Key:", process.env.STRIPE_SECRET_KEY);
@@ -346,7 +283,7 @@ payment: async (req, res) => {
 
       return {
         price_data: {
-          currency: 'usd',
+          currency: 'inr',
           product_data: {
             images: [imageUrl],
             name: item.product.title,
@@ -528,10 +465,7 @@ payment: async (req, res) => {
   },
 
   // subscription controller
-
-
 // Create a new subscription
-// router.post('/subscriptions', async (req, res) => {
   addSubscription: async(req, res) => {
     const intervals= {
       'weekly': 7,
@@ -598,7 +532,18 @@ payment: async (req, res) => {
       return res.status(404).json({ error: 'Subscription not found' });
     }
 
-  }
+  },
+  // Chat controller
+  // get chat
+  getMessageList: async(req, res) =>{
+    const id = req.params.id
+    const user = await User.findById(id)
 
+    if(user) return res.status(200).json({
+      status: 'successful',
+      message: 'Message List retrieval successful',
+      data: user.messageList
+    })
+  },
 
 };

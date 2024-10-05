@@ -2,12 +2,14 @@ import React, { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { axios } from '../Utils/Axios';
 import toast from 'react-hot-toast';
+import io from 'socket.io-client'
 
 const PetContext = createContext();
 
 const PetProvider = ({ children }) => {
   const userID = localStorage.getItem('userID');
   const [products, setProducts] = useState([]);
+  const [socket, setSocket] = useState(null)
   const [loginStatus, setLoginStatus] = useState(userID ? true : false);
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState([]);
@@ -25,6 +27,22 @@ const PetProvider = ({ children }) => {
     };
     fetchData();
   }, []);
+
+  useEffect( () =>{
+    console.log('login status updated', loginStatus)
+    if(loginStatus){
+      const role = localStorage.getItem('role')
+      const id = role=='user' ? localStorage.getItem('userID') : 'admin'
+
+      const newSocket = io(process.env.REACT_APP_BACKEND_BASE_URL,
+        {query: {id }}
+      )
+      setSocket(newSocket);
+    }else{
+      socket?.disconnect()
+      setSocket(null)
+    }
+  }, [loginStatus])
 
   ////////////////////// Pet Type Functions /////////////////////////////
   // Function to set the selected pet type
@@ -157,7 +175,7 @@ const PetProvider = ({ children }) => {
     }
   };
 
-  const handlePrice = (price) => `$${Number(price).toLocaleString('en-IN')}`;
+  const handlePrice = (price) => `AUD ${Number(price).toLocaleString('en-IN')}`;
 
   const totalPrice = cart?.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
 
@@ -188,6 +206,7 @@ const PetProvider = ({ children }) => {
   return (
     <PetContext.Provider
       value={{
+        socket,
         products,
         fetchProductDetails,
         fetchFood,

@@ -19,7 +19,7 @@ export default function UsersAdmin() {
     };
 
     fetchData();
-  }, [setProfile]);
+  }, []);
 
   return (
     <div>

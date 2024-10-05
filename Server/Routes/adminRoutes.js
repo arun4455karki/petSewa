@@ -6,7 +6,6 @@ const checkAuth = require('../Middleware/checkAuth');
 
 router
   .post('/login', tryCatch(controller.login))
-  .use(checkAuth(process.env.ADMIN_ACCESS_TOKEN_SECRET))
 
   .get('/users', tryCatch(controller.getAllUsers))
   .get('/users/:id', tryCatch(controller.getUserById))
@@ -19,6 +18,9 @@ router
   .delete('/products/:id', tryCatch(controller.deleteProduct))
 
   .get('/stats', tryCatch(controller.getStats))
-  .get('/orders', tryCatch(controller.getOrders));
+  .get('/orders', tryCatch(controller.getOrders))
+
+  // chat routes
+  .get('/getChatList', tryCatch(controller.getChatList))
 
 module.exports = router;

@@ -7,17 +7,16 @@ const adminSchema = new mongoose.Schema({
     password: String,
     chatList: [
         {
-            title: String,
-            userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-            avatar: String,
-            subtitle: String,
-            date: mongoose.Schema.Types.Date,
+            user: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+            lastMessage: String,
+            lastMessageDate: mongoose.Schema.Types.Date,
+            unReadMessage: Number,
             messageList: [{
+                    _id: {type: mongoose.Schema.Types.ObjectId},
+                    text: String,
                     position: {type: String, enum: ['left', 'right'], default: 'left'},
-                    type: { type: String, default: 'text'},
                     isRead: Boolean,
                     date: mongoose.Schema.Types.Date
-            
                 }]
         }
       
@@ -26,4 +25,4 @@ const adminSchema = new mongoose.Schema({
 
 const Admin = mongoose.model('Admin', adminSchema);
 
-export default Admin
+module.exports =  {Admin}
